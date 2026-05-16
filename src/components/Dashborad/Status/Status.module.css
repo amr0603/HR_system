@@ -1,0 +1,15 @@
+.row{
+     display: flex;
+flex-direction: row;  
+justify-content: space-around;  
+}
+ .card{
+    background-color: #6EC1E4;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width:280px ;
+    height: 160px;
+    border-radius: 12px;
+    font-size:20px;
+ }
