@@ -1,0 +1,88 @@
+.sideber {
+  width: 255px;
+  height: 100vh;
+  /* min-height: calc(100vh - 80px); */
+  background: linear-gradient(180deg, #10192e 0%, #0d1424 100%);
+  color: #8a93b2;
+  padding: 18px 0;
+  border-right: 1px solid rgba(255, 0, 0, 0.04);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px 24px 18px;
+  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.brandMark {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  border-radius: 6px;
+  background:
+    linear-gradient(#fff, #fff) 0 0 / 8px 8px no-repeat,
+    linear-gradient(#fff, #fff) 14px 0 / 8px 8px no-repeat,
+    linear-gradient(#fff, #fff) 0 14px / 8px 8px no-repeat,
+    linear-gradient(#fff, #fff) 14px 14px / 8px 8px no-repeat;
+  opacity: 0.95;
+}
+
+.brandText {
+  letter-spacing: 0.2px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.navItem {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px 14px 22px;
+  color: inherit;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.navItem:hover {
+  background: rgba(255, 255, 255, 0.03);
+  color: #ffffff;
+}
+
+.active {
+  background: rgba(33, 107, 255, 0.12);
+  color: #ffffff;
+}
+
+.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: #2d7ff9;
+  border-radius: 0 4px 4px 0;
+}
+
+.icon {
+  width: 20px;
+  text-align: center;
+  font-size: 1rem;
+  color: inherit;
+  opacity: 0.95;
+}
+
+.linkTitle {
+  font-size: 0.98rem;
+}

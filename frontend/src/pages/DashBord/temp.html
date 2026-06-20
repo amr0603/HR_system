@@ -1,0 +1,69 @@
+<div className="d-flex h-100 w-100">
+              <main className="">
+                <Routes>
+                  <Route index element={<Status />} />
+
+                  <Route path="/users" element={<Empolysse />}>
+                    <Route
+                      index
+                      element={
+                        <TableDashBord head="Users" title="User Management" />
+                      }
+                    />
+                    <Route path="add" element={<FormDashBord />} />
+                  </Route>
+
+                  <Route path="/attendance" element={<Attendance />}>
+                    <Route
+                      index
+                      element={
+                        <TableDashBord
+                          head="Projects"
+                          title="Project Management"
+                        />
+                      }
+                    />
+                    <Route path="add" element={<FormDashBord />} />
+                  </Route>
+
+                  <Route path="/payroll" element={<Payroll />}>
+                    <Route
+                      index
+                      element={
+                        <TableDashBord
+                          head="Projects"
+                          title="Project Management"
+                        />
+                      }
+                    />
+                    <Route path="add" element={<FormDashBord />} />
+                  </Route>
+
+                  <Route path="/leave" element={<Leave />}>
+                    <Route
+                      index
+                      element={
+                        <TableDashBord
+                          head="Projects"
+                          title="Project Management"
+                        />
+                      }
+                    />
+                    <Route path="add" element={<FormDashBord />} />
+                  </Route>
+
+                  <Route path="/settings" element={<Settings />}>
+                    <Route
+                      index
+                      element={
+                        <TableDashBord
+                          head="Developers"
+                          title="Developer Management"
+                        />
+                      }
+                    />
+                    <Route path="add" element={<FormDashBord />} />
+                  </Route>
+                </Routes>
+              </main>
+            </div>

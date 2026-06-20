@@ -1,0 +1,26 @@
+.container_status{
+   border:1px solid red;
+   height:100%;
+   width:100%;
+}
+section{
+   background-color: #F8FAFC;
+}
+
+.row{
+     display: flex;
+ 
+justify-content: space-around;  
+}
+ .card{
+    background-color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width:280px ;
+    height: 160px;
+    border-radius: 12px;
+    font-size:20px;
+    border: solid #0038B6 1px;
+    flex-direction: column; 
+ }
