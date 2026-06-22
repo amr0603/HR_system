@@ -1,6 +1,6 @@
 
 // Require Model
-const User = require("../models/User");
+const User = require("../Models/User");
 // Require Validation Schema
 const {
   createUserSchema,

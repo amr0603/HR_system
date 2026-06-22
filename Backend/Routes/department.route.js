@@ -1,10 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const { createDepartment, getAllDepartments } = require("../Controllers/department.controller");
-const { protectHR } = require("../Middlewares/Auth.Middleware");
 
+// استدعاء الميدل وير بشكل صحيح كـ دالة مباشرة
+const adminMiddleware = require("../Middlewares/Admin.Middleware"); 
 
-router.use(protectHR);
+// تطبيق الميدل وير على جميع الراوتس بالأسفل
+router.use(adminMiddleware); 
 
 router.post("/", createDepartment);
 router.get("/", getAllDepartments);

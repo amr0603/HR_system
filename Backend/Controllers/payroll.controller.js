@@ -1,4 +1,4 @@
-const Payroll = require("../models/Payroll");
+const Payroll = require("../Models/Payroll");
 
 // @desc    Create new payroll record
 // @route   POST /api/payroll

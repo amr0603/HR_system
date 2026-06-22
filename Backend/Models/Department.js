@@ -1,36 +1,28 @@
 const mongoose = require('mongoose');
 
 const departmentSchema = new mongoose.Schema({
-name: {
-      type: String,
-      required: true,
-      unique: true,
-      trim: true,
-      minlength: 6,
-      maxlength: 50,
+    name: {
+        type: String,
+        required: true,
+        unique: true,
+        trim: true,
+        minlength: 6,
+        maxlength: 50,
     },
-
     description: {
-      type: String,
-      trim: true,
-      maxlength: 300,
+        type: String,
+        trim: true,
+        maxlength: 300,
     },
-
     manager: {
-   type: String,
-      required: true,
-      unique: true,
-      trim: true,
-      minlength: 6,
-      maxlength: 50,
+        type: String,
+        required: true,
+        unique: true,
+        trim: true,
+        minlength: 6,
+        maxlength: 50,
+    }
+}, { timestamps: true });
 
-    },
-   employee :{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Department",
-      required: true,
-   }
-},{timestamps:true});
-
-const department = mongoose.model('department',departmentSchema)
+const department = mongoose.model('department', departmentSchema);
 module.exports = department;
