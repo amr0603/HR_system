@@ -20,14 +20,15 @@ const connectedDB = require("./Config/db");
 connectedDB();
 
 // استدعاء كافة الروابط (Routes)
-const adminroute = require('./Routes/Admin.Route');
-const userRoutes = require("./routes/user.route");
-const userAuthRoutes = require("./routes/authUser.route");
+const adminroute = require('./Routes/Admin.route');
+const userRoutes = require("./Routes/user.route");
+const userAuthRoutes = require("./Routes/authUser.route");
 const employeeRoutes = require("./Routes/employee.route");
 const departmentRoutes = require("./Routes/department.route");
 const attendanceRoutes = require("./Routes/attendance.route");
 const payrollRoutes = require("./Routes/payroll.route");
-const taskRoutes = require("./Routes/taskRoute");
+const taskRoutes = require("./Routes/task.Route");
+const evaluations =require("./Routes/evaluation.route");
 
 // تفعيل مسارات الـ API
 app.use('/api/dashboard', adminroute);
@@ -38,6 +39,7 @@ app.use("/api/departments", departmentRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/payroll", payrollRoutes);
 app.use("/api/tasks", taskRoutes);
+app.use("/api/evaluations",evaluations);
 
 // إعداد الـ Socket.io لشات الدعم الفني
 const { Server } = require("socket.io");

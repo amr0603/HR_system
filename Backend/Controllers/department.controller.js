@@ -16,7 +16,8 @@ const createDepartment = async (req, res) => {
         const newDept = await Department.create({ name, description, manager });
         res.status(201).json({ message: "Department created successfully.", department: newDept });
     } catch (error) {
-        res.status(500).json({ message: "Error creating department.", error: error.message });
+        console.error(error);
+        res.status(500).json({ message: "Error creating department." });
     }
 };
 
@@ -26,7 +27,8 @@ const getAllDepartments = async (req, res) => {
         const departments = await Department.find();
         res.status(200).json({ count: departments.length, departments });
     } catch (error) {
-        res.status(500).json({ message: "Error fetching departments.", error: error.message });
+        console.error(error);
+        res.status(500).json({ message: "Error fetching departments." });
     }
 };
 

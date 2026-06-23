@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
+const adminMiddleware = require("../Middlewares/Admin.Middleware");
+
 const {
   createPayroll,
   getAllPayrolls,
@@ -8,7 +10,9 @@ const {
   getPayrollByEmployee,
   updatePayroll,
   deletePayroll,
-} = require("../controllers/payroll.controller");
+} = require("../Controllers/payroll.controller");
+
+router.use(adminMiddleware);
 
 router.post("/", createPayroll);
 router.get("/", getAllPayrolls);

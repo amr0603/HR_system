@@ -4,10 +4,9 @@ const Employee = require("../Models/Employee");
 const User = require("../Models/User");
 
 // ==========================================
-// 1️⃣ Create Employee (With ACIDS Transactions & Generated Password)
+// 1️⃣ Create Employee (With ACID Transactions)
 // ==========================================
 const createEmployee = async (req, res) => {
-    // Start Mongoose Session for Transaction to guarantee data integrity
     const session = await mongoose.startSession();
     session.startTransaction();
 
@@ -16,58 +15,60 @@ const createEmployee = async (req, res) => {
 
         // Basic fields validation
         if (!username || !email || !phoneNumber || !name || !department || !salary) {
+            await session.abortTransaction();
+            session.endSession();
             return res.status(400).json({ message: "All required fields must be provided!" });
         }
 
-        // Check if email already exists
-        const existingUser = await User.findOne({ email }).session(session);
+        // Check if email already exists (Normalize to lower case)
+        const normalizedEmail = email.toLowerCase();
+        const existingUser = await User.findOne({ email: normalizedEmail }).session(session);
         if (existingUser) {
             await session.abortTransaction();
             session.endSession();
             return res.status(400).json({ message: "This email is already registered in the system!" });
         }
 
-        // Generate a secure temporary password for the new employee (e.g., Emp_a3f1b2!)
+        // Generate a secure temporary password
         const temporaryPassword = "Emp_" + crypto.randomBytes(3).toString("hex") + "!";
 
         // Step A: Create login credentials in User Collection
         const [newUser] = await User.create([{
             username,
-            email,
+            email: normalizedEmail,
             phoneNumber,
-            password: temporaryPassword, // Will be automatically hashed by User Schema pre-save hook
+            password: temporaryPassword, // Auto-hashed by User Schema pre-save hook
             role: "Employee"
         }], { session });
 
-        // Step B: Create employee profile details and link it via userId
-        const newEmployee = await Employee.create([{
+        // Step B: Create employee profile details
+        const [newEmployee] = await Employee.create([{
             name,
-            email,
+            email: normalizedEmail,
             age,
             phone: phoneNumber,
-            department, // Must be a valid Department ObjectId
+            department, 
             position: position || "Staff",
             address,
             salary,
-            leaveBalance: 21, // Default yearly leave balance according to requirement PDF
+            leaveBalance: 21, 
             userId: newUser._id
         }], { session });
 
-        // Commit all changes if both operations succeed
         await session.commitTransaction();
         session.endSession();
 
         res.status(201).json({
-            message: "Employee account and profile created successfully with Mongoose Transaction.",
-            temporaryPassword, // Return this so HR can securely hand it over to the employee
-            employee: newEmployee[0]
+            message: "Employee account and profile created successfully.",
+            temporaryPassword, 
+            employee: newEmployee
         });
 
     } catch (error) {
-        // Discard any partial database updates if any error happens
         await session.abortTransaction();
         session.endSession();
-        res.status(500).json({ message: "Failed to create employee. Operation aborted.", error: error.message });
+        // حجب تفاصيل الخطأ الصريحة للحفاظ على أمن النظام
+        res.status(500).json({ message: "Failed to create employee. Operation aborted." });
     }
 };
 
@@ -82,7 +83,7 @@ const getAllEmployees = async (req, res) => {
 
         res.status(200).json({ count: employees.length, employees });
     } catch (error) {
-        res.status(500).json({ message: "Error fetching employees.", error: error.message });
+        res.status(500).json({ message: "Error fetching employees." });
     }
 };
 
@@ -101,18 +102,28 @@ const getEmployeeById = async (req, res) => {
 
         res.status(200).json({ employee });
     } catch (error) {
-        res.status(500).json({ message: "Error fetching employee details.", error: error.message });
+        res.status(500).json({ message: "Error fetching employee details." });
     }
 };
 
 // ==========================================
-// 4️⃣ Update Employee Details
+// 4️⃣ Update Employee Details (Secure from Mass Assignment)
 // ==========================================
 const updateEmployee = async (req, res) => {
     try {
+        // حماية البيانات: استقبال الحقول المسموح بتعديلها فقط لمنع التلاعب بالحقول الحساسة مثل الراتب أو الرصيد
+        const allowedUpdates = ["name", "age", "phone", "address", "position"];
+        const updates = {};
+        
+        Object.keys(req.body).forEach((key) => {
+            if (allowedUpdates.includes(key)) {
+                updates[key] = req.body[key];
+            }
+        });
+
         const updatedEmployee = await Employee.findByIdAndUpdate(
             req.params.id,
-            req.body,
+            updates, // نمرر الكائن المصفى فقط بدلاً من req.body كاملاً
             { new: true, runValidators: true }
         );
 
@@ -122,7 +133,7 @@ const updateEmployee = async (req, res) => {
 
         res.status(200).json({ message: "Employee details updated successfully.", employee: updatedEmployee });
     } catch (error) {
-        res.status(500).json({ message: "Error updating employee details.", error: error.message });
+        res.status(500).json({ message: "Error updating employee details." });
     }
 };
 
@@ -151,7 +162,7 @@ const deleteEmployee = async (req, res) => {
     } catch (error) {
         await session.abortTransaction();
         session.endSession();
-        res.status(500).json({ message: "Error deleting employee record.", error: error.message });
+        res.status(500).json({ message: "Error deleting employee record." });
     }
 };
 

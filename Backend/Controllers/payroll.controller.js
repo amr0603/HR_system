@@ -23,7 +23,8 @@ const createPayroll = async (req, res) => {
 
     res.status(201).json({ message: "Payroll record created successfully", payroll });
   } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
+    console.error(error);
+        res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -36,7 +37,8 @@ const getAllPayrolls = async (req, res) => {
 
     res.status(200).json({ count: payrolls.length, payrolls });
   } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
+    console.error(error);
+        res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -54,7 +56,8 @@ const getPayrollById = async (req, res) => {
 
     res.status(200).json(payroll);
   } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
+    console.error(error);
+        res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -71,7 +74,8 @@ const getPayrollByEmployee = async (req, res) => {
 
     res.status(200).json({ count: payrolls.length, payrolls });
   } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
+    console.error(error);
+        res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -97,7 +101,8 @@ const updatePayroll = async (req, res) => {
 
     res.status(200).json({ message: "Payroll record updated successfully", payroll: updated });
   } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
+    console.error(error);
+        res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -112,7 +117,8 @@ const deletePayroll = async (req, res) => {
 
     res.status(200).json({ message: "Payroll record deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
+    console.error(error);
+        res.status(500).json({ message: "Server error" });
   }
 };
 

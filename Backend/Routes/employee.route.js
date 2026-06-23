@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+const adminMiddleware = require("../Middlewares/Admin.Middleware");
 
 const {
      createEmployee,
@@ -9,6 +10,8 @@ const {
     updateEmployee,
     deleteEmployee
 } = require("../Controllers/employee.controller");
+
+router.use(adminMiddleware);
 
 router.post("/",createEmployee);
 router.get("/", getAllEmployees);

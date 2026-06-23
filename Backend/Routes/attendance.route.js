@@ -3,9 +3,9 @@ const router = express.Router();
 
 const { checkIn, checkOut, getMyAttendanceHistory } = require("../Controllers/attendance.controller");
 
-const adminMiddleware = require("../Middlewares/Admin.Middleware"); 
+const userMiddleware = require("../Middlewares/user.Middleware");
 
-router.use(adminMiddleware); 
+router.use(userMiddleware);
 
 router.post("/check-in", checkIn);
 router.post("/check-out", checkOut);
