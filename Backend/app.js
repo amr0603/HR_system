@@ -4,6 +4,8 @@ const app = express();
 const http = require("http");
 const appServer = http.createServer(app);
 const morgan = require("morgan");
+const cors = require('cors');
+app.use(cors()); 
 
 app.use(express.json());
 

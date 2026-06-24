@@ -1,35 +1,40 @@
-// require express
 const express = require("express");
-// Router
 const router = express.Router();
 
-const adminMiddleware = require("../Middlewares/Admin.Middleware");
-
-// Require Controller (قمنا بتغيير الاستدعاء ليستقبل كل الدوال كـ Object)
-const {
-  createUser,
-  getAllUsers,
-  getUserById,
-  updateUser,
-  deleteUser
+// 1️⃣ استدعاء الـ Controllers
+const { 
+  createUser, 
+  getAllUsers, 
+  getUserById, 
+  updateUser, 
+  deleteUser 
 } = require("../Controllers/user.controller");
 
-router.use(adminMiddleware);
+// 2️⃣ استدعاء الحراس (Middlewares)
+const userMiddleware = require("../Middlewares/user.Middleware"); // بيفحص التوكن الأساسية ويطلع req.user
+const adminMiddleware = require("../Middlewares/admin.middleware"); // 👈 حارس الأدمن الأعلى فقط!
 
-// 1️⃣ مسار إنشاء مستخدم جديد
-router.post("/", createUser);
+// حماية كل المسارات القادمة: لازم يكون مسجل دخول أولاً
+router.use(userMiddleware);
 
-// 2️⃣ مسار جلب جميع المستخدمين
-router.get("/", getAllUsers);
+// ========================================================
+// 🔒 مسارات الإدارة الحكراً على الـ Admin الأعلى فقط 👑
+// ========================================================
 
-// 3️⃣ مسار جلب مستخدم معين بواسطة الـ ID
-router.get("/:id", getUserById);
+// الأدمن فقط هو من ينشئ مستخدم ويحدد صلاحياته (حتى لو كان الـ يوزر الجديد HR)
+router.post("/", adminMiddleware, createUser);
 
-// 4️⃣ مسار تحديث بيانات مستخدم بواسطة الـ ID
-router.put("/:id", updateUser);
+// الأدمن فقط هو من يستطيع تعديل بيانات وصلاحيات أي مستخدم (حتى لو بيعدل للـ HR)
+router.put("/:id", adminMiddleware, updateUser);
 
-// 5️⃣ مسار حذف مستخدم بواسطة الـ ID
-router.delete("/:id", deleteUser);
+// الأدمن فقط هو من يستطيع حذف مستخدم تماماً من النظام
+router.delete("/:id", adminMiddleware, deleteUser);
 
-// Export
+
+// ========================================================
+// 📊 مسارات عامة أو للـ HR (حسب طبيعة النظام عندك)
+// ========================================================
+router.get("/", getAllUsers); // لرؤية قائمة الموظفين
+router.get("/:id", getUserById); // لرؤية ملف موظف محدد
+
 module.exports = router;

@@ -7,7 +7,7 @@ const socketAuthMiddleware = (socket, next) => {
     const token = socket.handshake.headers.token;
     if (!token) return next(new Error("Token not provided"));
 
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    const payload = jwt.verify(token, process.env.SECRET_KEY);
     socket.userId = payload.id;
     socket.role = payload.role;
     next();

@@ -31,7 +31,7 @@ const loginadmin = async (req, res) => {
 
     const token = jwt.sign(
       { id: admin._id, role: "admin" },
-      process.env.JWT_SECRET,
+      process.env.SECRET_KEY,
       { expiresIn: "1h" },
     );
 
